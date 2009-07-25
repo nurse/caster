@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<form onsubmit="return false;">
+	<fieldset><legend>ログの表示</legend>
+		<em>※次の更新/リロード時に反映されます。</em><br />
+		更新期間を<input type="text" id="idReloadRateMin" size="3" value="20" />秒～<input
+				type="text" id="idReloadRateMax" size="3" value="300" />秒の間に調整する <em>(対応システムのみ)</em><br />
+		<label>
+			<input type="checkbox" id="idEnableIcon" checked="checked" />アイコンを表示する
+		</label>(<label title="アイコンの最大サイズを指定します">高さを<select id="idResizeIcon">
+			<option value="16">16</option>
+			<option value="24" selected="selected">24</option>
+			<option value="32">32</option>
+			<option value="48">48</option>
+			<option value="80">80</option>
+			<option value="96">96</option>
+		</select>ピクセル以内に調整する</label>)<br />
+		<label>許可するタグ一覧
+			<input type="text" class="i_text" id="idSafeTagList" size="40" value="a b i u s q cite code ins del em small strong ruby rb rb rt rp sup sub br" onclick="this.select()" />
+		</label><br />
+		<label>
+			アイコンキャッシュ
+			<input type="text" class="i_text" id="idIconCachePath" size="40" value="http://icon.wahah.jp/iconcache.cgi" onclick="this.select()" />
+		</label><br />
+		<label>URLクッション
+			<input type="text" class="i_text" id="idPurlPath" size="40" value="http://p.wahah.jp/?" onclick="this.select()" />
+		</label><br />
+	</fieldset>
+	<fieldset><legend>更新の通知</legend>
+		<label><input type="checkbox" id="idEnableSound" checked="checked" />効果音を鳴らす</label>
+		<label><input type="checkbox" id="idEnableFlashWindow" checked="checked" />タイトルバーを点滅する</label><br />
+		<label for="idNotifyKeyword" title="通知するキーワード">
+			キーワード
+			<input type="text" class="i_text" id="idNotifyKeyword" size="40" value="" onclick="this.select()" />
+		</label><br />
+	</fieldset>
+	<fieldset><legend>外観</legend>
+		ウィンドウテーマ：
+		<label>
+			<select id="idTheme" onchange="applyStyleSheets()"></select>
+		</label>
+		<br />
+		<label>
+			<input type="checkbox" id="idWindowTopmost" onclick="applyTopmost()" />最前列に表示する
+		</label>
+		<br />
+		透明度：
+		<label>
+			アクティブ時<input class="i_text" type="text" id="idWindowOpacity" size="3" value="" onchange="applyOpacity()" />
+		</label>
+		<label>
+			非アクティブ時<input class="i_text" type="text" id="idWindowOpacityInactive" size="3" value="" onchange="applyOpacity()" />
+		</label>
+		(64～256)
+		<br />
+	</fieldset>
+	<fieldset><legend>リンク</legend>
+		<label for="idUseShellBrowser">
+			<input type="radio" name="nameBrowser" id="idUseShellBrowser" value="shell" checked="checked" />標準のブラウザで開く
+		</label>
+		<button class="button" onmouseover="this.className='buttonHover'; return false;" onmouseout="this.className='button'; return false;"
+			onclick="nav('http://www.google.co.jp/')">表示確認</button><br />
+		<label for="idUseUserBrowser">
+			<input type="radio" name="nameBrowser" id="idUseUserBrowser" value="user" />次のプログラムで開く
+		</label><input class="i_text" type="text" id="idUserBrowserPath" size="40" value="" onclick="this.select()" /><br />
+<!--
+		<label>実行を許可するスキーム
+			<input type="text" class="i_text" id="idSafeSchemeList" size="20" value="http ftp https" onclick="this.select()" />
+		</label> <em>(未実装)</em><br />
+-->
+	</fieldset>
+	<fieldset><legend>起動・終了</legend>
+		<label>
+			<input type="checkbox" id="idRememberWindowPosition" checked="checked" />終了時のウィンドウ位置を記憶する
+		</label><br />
+		コンピュータの起動時に自動的に起動する
+		<button class="button" onmouseover="this.className='buttonHover'; return false;" onmouseout="this.className='button'; return false;"
+			onclick="reg_startup()">登録</button><br />
+	</fieldset>
+	<fieldset><legend>デバッグモード</legend>
+		<label>
+			<input type="checkbox" id="idEnableDebug" />デバッグオプションを有効にする <em>(再起動後に有効)</em>
+		</label>
+		<button class="button" onmouseover="this.className='buttonHover'; return false;" onmouseout="this.className='button'; return false;"
+			onclick="msgbox(app.ua)">UserAgent</button><br />
+	</fieldset>
+</form>

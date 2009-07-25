@@ -1,0 +1,82 @@
+
+
+    AccHelper: AjaxChatClientヘルパーActiveXコントロール
+
+    Copyright (c)2005 Nerry Kitazato, All rights reserved.
+
+
+
+
+これはなに
+
+    AjaxChatClient向けカスタムコントロールです。
+    HTA だけでは実現が難しい機能をAjaxChatClientに付加するために設計されました。
+
+
+
+
+クラス仕様
+
+    GUID:{8AB190D5-6A7F-4648-9FCE-93C4291C2682};
+
+
+
+
+メソッド
+
+    function Init(title:BSTR)
+        コントロールを初期化します。
+        titleにはコントロールを関連付けるウィンドウのタイトルを指定します。
+        このメソッドで正しくウインドウを初期化しないと他の機能が正常に動作しません。
+
+    function FlashWindow();
+        ウィンドウを点滅させてユーザーの注意を促します。
+
+    function Test(p1:VARIANT; p2:VARIANT; p3:VARIANT; p4:VARIANT);
+        実装されていません。
+
+
+
+
+プロパティ
+
+    opacity: I4;
+        ウィンドウの透明度を 0 ～ 255 の整数で指定します。
+        0はほぼ完全な透明で、255がほぼ完全な不透明です。
+
+    topmost: BOOL;
+        値が true の場合ウィンドウを topmost 属性(最前列)にします。
+
+    onactivate: LPDISPATCH;
+        ウィンドウのアクティブ状態が変更された場合に呼び出されるイベントハンドラを指定します。
+
+
+
+
+LICENSE
+
+    本ソフトウェアは修正BSDライセンスの下でリリースされます。
+
+
+Copyright (c)2005 Nerry Kitazato, All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+- Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer. 
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.

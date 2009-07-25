@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE template SYSTEM "../DTD/acc-template.dtd" >
+<template uri="http://fuuka.org/WindChat" system="WindChat">
+	<options />
+	<form>
+		<fieldset	type="main">
+			<input	type="fixed"	perceivedType="text"	name="type" get="yes" post="yes" value="xml" />
+			<input	type="fixed"	perceivedType="text"	name="version" get="yes" post="yes" value="0.4" />
+			<input	type="string"	perceivedType="name"	name="name" saving="yes" get="yes" post="yes" value="" size="10" label="名前" />
+			<input	type="string"	perceivedType="text"	name="status" saving="yes" get="yes" post="yes" value="" size="10" label="状態" />
+			<input	type="integer"	perceivedType="line" name="line" saving="yes" get="yes" post="yes" value="50" size="2" label="行数" />
+			<input	type="fixed"	perceivedType="mode"	name="mode"	post="yes" get="yes"	value="msg" />
+			<line-break />
+			<input	type="string"	perceivedType="body"	name="body" post="yes" value="" size="60" label="発言" />
+		</fieldset>
+		<fieldset type="option">
+			<input	type="string"	perceivedType="color"	name="color" saving="yes" get="yes" post="yes" value="#343434" size="10" label="発言色" />
+			<input	type="string"	perceivedType="icon"	name="icon" saving="yes" post="yes" value="" size="10" label="アイコン" />
+			<input	type="string"	perceivedType="text"	name="hash" saving="yes" get="yes" post="yes" value="" size="10" label="ハッシュ" />
+			<input	type="hidden"	perceivedType="reload"	name="retime" get="yes" post="yes" value="30" />
+			<input	type="fixed"	perceivedType="text"	name="check" get="yes" post="yes" value="表" />
+		</fieldset>
+	</form>
+	<output />
+</template>

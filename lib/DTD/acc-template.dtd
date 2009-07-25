@@ -1,0 +1,99 @@
+<!--
+
+	DTD for AjaxChatWrapper Template File
+
+-->
+
+<!ENTITY lt	"&#38;#60;">
+<!ENTITY gt	"&#62;">
+<!ENTITY amp	"&#38;#38;">
+<!ENTITY apos	"&#39;">
+<!ENTITY quot	"&#34;">
+
+<!ENTITY % Forms	"(input | line-break | select | label )+" >
+<!ENTITY % YesNo	"( yes | no )" >
+
+<!ENTITY % InputType	"(string | integer | hidden | fixed | body | select)" >
+<!ENTITY % pType	"( text | name | body | line | reload | mode | color | icon )" >
+
+<!-- TOP LEVEL ELEMENT -->
+<!ELEMENT template (options?,form,output?)>
+<!ATTLIST template
+	uri		CDATA		#REQUIRED
+	system	CDATA		#REQUIRED
+	>
+
+<!-- CHAT OPTION -->
+<!ELEMENT options (item)*>
+
+<!ELEMENT item EMPTY>
+<!ATTLIST item
+	type	NMTOKEN	#REQUIRED
+	value	CDATA	#IMPLIED
+	>
+
+<!-- FORM DEFINITION -->
+<!ELEMENT form (fieldset)*>
+
+<!-- FORM FIELD DEFINITIONS -->
+<!ELEMENT fieldset %Forms;>
+<!ATTLIST fieldset
+	type	(main|option)	#REQUIRED
+	>
+
+<!-- FORM INPUT ELEMENT -->
+<!ELEMENT input (#PCDATA)>
+<!ATTLIST input
+	type	%InputType;	#REQUIRED
+	name	NMTOKEN		#REQUIRED
+	saving	%YesNo;		#IMPLIED
+	get		%YesNo;		#IMPLIED
+	post	%YesNo;		#IMPLIED
+	value	CDATA		#IMPLIED
+	label	CDATA		#IMPLIED
+	size	CDATA		#IMPLIED
+	datasrc	NMTOKEN		#IMPLIED
+	perceivedType
+			%pType;		#IMPLIED
+	>
+
+<!-- FORM SELECTION ELEMENT -->
+<!ELEMENT select (optgroup|option)*>
+<!ATTLIST select
+	type	NMTOKEN		#FIXED "select"
+	name	NMTOKEN		#REQUIRED
+	saving	%YesNo;		#IMPLIED
+	get		%YesNo;		#IMPLIED
+	post	%YesNo;		#IMPLIED
+	label	CDATA		#REQUIRED
+	src		CDATA		#IMPLIED
+	title	CDATA		#IMPLIED
+	perceivedType
+			%pType;		#IMPLIED
+	>
+
+<!-- XHTML's optgoroup ELEMENT -->
+<!ELEMENT optgoroup (option)*>
+<!ATTLIST optgoroup
+	label	CDATA		#REQUIRED
+	title	CDATA		#IMPLIED
+	>
+
+<!-- XHTML's option ELEMENT -->
+<!ELEMENT option (#PCDATA)>
+<!ATTLIST option
+	value	CDATA		#REQUIRED
+	alt		CDATA		#IMPLIED
+	title	CDATA		#IMPLIED
+	>
+
+<!-- Form line break -->
+<!ELEMENT line-break EMPTY>
+
+<!-- Form text label -->
+<!ELEMENT label (#PCDATA)>
+
+<!-- RESERVED FOR FUTURE USE -->
+<!ELEMENT output EMPTY>
+
+<!-- END OF DTD -->

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<template uri="http://airemix.org/2005/Cast" system="Cast_Unknown">
+	<options>
+		<item type="disallowPost" value="true" />
+	</options>
+	<form>
+		<fieldset	type="main">
+			<text>
+				<p>
+					<em>このチャットはシステムを認識できなかったので、閲覧モードで表示しています。</em>
+				</p>
+			</text>
+		</fieldset>
+	</form>
+</template>

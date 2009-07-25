@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<opml version="1.0" xmlns:acc="http://wahah.jp/AccOPML/">
+	<head>
+		<title>AjaxChatClient</title>
+	</head>
+	<body>
+		<outline type="cast" acc:system="Terra.xml" text="わはーチャット ★彡" title="わはーチャット ★彡" xmlUrl="http://wahah.jp/chat/index.cgi" htmlUrl="http://wahah.jp/chat/index.cgi"/>
+	</body>
+</opml>

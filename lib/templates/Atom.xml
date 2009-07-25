@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE template SYSTEM "../DTD/acc-template.dtd" >
+<template uri="http://www.w3.org/2005/Atom" system="Atom">
+	<options>
+		<item type="readonly" value="true" />
+		<item type="disallowPost" value="true" />
+		<item type="reload" value="900" />
+	</options>
+	<form />
+</template>
