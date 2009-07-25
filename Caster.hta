@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="MSThemeCompatible" content="Yes" />
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Script-Type" content="text/javascript" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<meta http-equiv="MSThemeCompatible" content="Yes" />
 <!--
 
 	Caster - Cast Client
@@ -14,7 +15,7 @@ Copyright (c) 2006-2009 Airemix. All rights reserved.
 License of this application is the same of AjaWrapper.
 
 
-	AjaxChatClient
+	AjaxChatClient / Revolution
 
 Copyright (c)2005,2006,2007 Nerry Kitazato, All rights reserved.
 
@@ -40,8 +41,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
 -->
-<title>AjaxChatClient を起動しています・・・</title>
-<style type="text/css">
+		<title>AjaxChatClient を開始しています・・・</title>
+		<style type="text/css">
 .hidden{ display: none; }
 #painPoolContainer .active { display: block; }
 #painPoolContainer .inactive { display: none; }
@@ -125,16 +126,16 @@ form{ margin:0; }
 	color: #777;
 }
 
-</style>
-<script type="text/javascript" src="./lib/punycode.js"></script>
-<script type="text/javascript" src="./lib/sha1.js"></script>
-<script type="text/javascript" src="./lib/maple-core.js"></script>
-<script type="text/javascript" src="./lib/HTML.js"></script>
-<script type="text/javascript">
+		</style>
+		<script type="text/javascript" src="./lib/punycode.js"></script>
+		<script type="text/javascript" src="./lib/sha1.js"></script>
+		<script type="text/javascript" src="./lib/maple-core.js"></script>
+		<script type="text/javascript" src="./lib/HTML.js"></script>
+		<script type="text/javascript">
 
 	var	app		= {
-		"name":"Caster/0.36",
-		"core":"AjaxChatClient/1.04.34.20070818",
+		"name":"Caster/1.0.0",
+		"core":"AjaxChatClient/1.05.35.20070821",
 		"active":true,
 		"selected":0,
 		"timerSetActiveBody":null,
@@ -151,18 +152,20 @@ form{ margin:0; }
 			"width":430,"height":592
 		}
 	};
-	app.ua		= app.name+' '+app.core;
+	app.ua		= [app.name, app.core].join(" ");
 	app.popup	= window.createPopup();
-	app.regexp_autolink	= new RegExp("(^|[^>\\w])((https?|ftp)://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)", "g");
+	app.regexp_autolink	= new RegExp("(^|\W|\s)((ftp|http|https)://[^\"#&'/\\s]+(|/[\x21\x23-\x26\x28-\x7e]*))(?=($|[^\x21\x23-\x26\x28-\\x7e]))","g");
+
+	progid_xmldom	= "Microsoft.XMLDOM";
 
 	app.pathUserProfilePrefix	= "./etc/";
 
 	app.pathProfile	= app.pathUserProfilePrefix+"profile.xml";
 	app.pathOPML	= app.pathUserProfilePrefix+"setting.opml";
 	app.pathDefaultOPML	= "./lib/default-setting.opml";
-	var	domProfile	= getDOMDocument();
+	var	domProfile	= new ActiveXObject(progid_xmldom);
 	if(!domProfile.load(app.pathProfile)){
-		domProfile.loadXML("<profile>\n<application-settings />\n</profile>");
+		domProfile.loadXML("<profile>\n\t<application-settings />\n</profile>");
 	}
 	var	domProfileDE = domProfile.documentElement;
 	var	domProfileAPS = domProfileDE.selectSingleNode("application-settings");
@@ -265,9 +268,7 @@ function onActivate(active){
 		}
 		oAccHelper.onActivate	= onActivate;
 
-		//setTimeout("(oAccHelper.getVersion())", 1000);
-
-		app.domConfigForm	= getDOMDocument();
+		app.domConfigForm	= new ActiveXObject(progid_xmldom);
 		app.domConfigForm.load("./lib/template-config.xml");
 
 		var x=app.domConfigForm.selectSingleNode("//*[@id='idTheme']");
@@ -322,10 +323,11 @@ function onActivate(active){
 		applyOpacity();
 		applyTopmost();
 
+
 		//	setting.opml/setting.xml のインポート
-		var	domConfig = getDOMDocument();
+		var	domConfig = new ActiveXObject(progid_xmldom);
 		var pathOldConfig = app.pathUserProfilePrefix+"setting.xml";
-		var	domOPML	= getDOMDocument();
+		var	domOPML	= new ActiveXObject(progid_xmldom);
 		if(!domOPML.load(app.pathOPML)){
 			if(domConfig.load(pathOldConfig)){
 				domOPML.loadXML("<opml xmlns:acc=\"http://wahah.jp/AccOPML/\" />");
@@ -336,10 +338,10 @@ function onActivate(active){
 					var l=x.item(i);
 					if(!(""+l.getAttribute("base-uri")).match(/update.wahah.jp/)){
 						var y=domOPML.createElement("outline");
-						y.setAttribute("type","cast");
+						y.setAttribute("type","rss");
 						y.setAttribute("acc:system",l.getAttribute("system"));
 						y.setAttribute("text",l.getAttribute("title"));
-						y.setAttribute("xmlUrl",l.getAttribute("base-uri"));
+						y.setAttribute("xmlUrl",l.getAttribute("base-uri")+"?type=xml");
 						y.setAttribute("htmlUrl",l.getAttribute("org-uri"));
 						opmlBody.appendChild(y);
 					}
@@ -362,10 +364,21 @@ function onActivate(active){
 			for(var j=0;j<y.length;j++){
 				o[y.item(j).nodeName]=y.item(j).nodeValue;
 			}
+			if(o["type"]=="cast"){
+				o["type"]="rss";
+				o["xmlUrl"]=o["xmlUrl"].replace(/\?type\=xml$/,"")+"?type=xml";
+			}
 			app.outline.push(o);
 			add_tab(o);
 		}
-		open_startup_tabs(0);
+
+		//	security fix
+		if(location.href.match(/Documents\%20and\%20Settings/i)){
+			msgbox("****警告****\n\n現在AjaxChatClientがインストールされている場所（"+location.href
+				+"）にはあなたのユーザーアカウント名を推測できる文字列が含まれています。\n他の場所に再インストールすることをお勧めします。");
+		}else{
+			open_startup_tabs(0);
+		}
 
 		app.bootOk = true;
 	}
@@ -396,19 +409,21 @@ function onActivate(active){
 	}
 
 	window.onresize	= function(){
-		try{
-			var chat_log = document.getElementById("chatLog."+app.selected)
-			if (chat_log) {
-				var height = document.documentElement.clientHeight - 1
-				 - document.getElementById('barTabContainer').offsetHeight
-				 - document.getElementById('tabContents99').offsetHeight
-				 - document.getElementById('submitForms.'+app.selected).offsetHeight
-				 - document.getElementById('inputForms'+app.selected).offsetHeight
-				 - document.getElementById('chatMember.'+app.selected).offsetHeight
-				 - document.getElementById('globalLog').offsetHeight;
-				chat_log.style.height = height;
-			}
-		}catch(e){}
+		if (app.selected) {
+			try{
+				var chat_log = document.getElementById("chatLog."+app.selected)
+				if (chat_log) {
+					var height = document.documentElement.clientHeight - 1
+					 - document.getElementById('barTabContainer').offsetHeight
+					 - document.getElementById('tabContents99').offsetHeight
+					 - document.getElementById('submitForms.'+app.selected).offsetHeight
+					 - document.getElementById('inputForms'+app.selected).offsetHeight
+					 - document.getElementById('chatMember.'+app.selected).offsetHeight
+					 - document.getElementById('globalLog').offsetHeight;
+					chat_log.style.height = height;
+				}
+			}catch(e){}
+		}
 	}
 
 	window.onerror = function(message,url,line){
@@ -417,8 +432,8 @@ function onActivate(active){
 	}
 
 function saveOutline(){
-	var	domOPML	= getDOMDocument();
-	domOPML.loadXML("<opml />");
+	var	domOPML	= new ActiveXObject(progid_xmldom);
+	domOPML.loadXML("<?xml version=\"1.0\" encoding=\"utf-8\" ?><opml />");
 	domOPML.documentElement.setAttribute("version","1.0");
 	domOPML.documentElement.setAttribute("xmlns:acc","http://wahah.jp/AccOPML/");
 	var x=domOPML.createElement("head");
@@ -585,14 +600,22 @@ function select_chat(tab){
 		}
 	}else{
 		if(!app.tab[tab].nodeProfile){
-			app.tab[tab].nodeProfile	= domProfileDE.selectSingleNode("chat-room[@baseuri='"+app.tab[tab].baseUri+"']/form");
-			if(!app.tab[tab].nodeProfile){
-				domProfileDE.appendChild(domProfile.createTextNode("\n"));
-				var x=domProfile.createElement("chat-room");
-				x.setAttribute("baseuri",app.tab[tab].baseUri);
-				var y=domProfileDE.appendChild(x)
-				app.tab[tab].nodeProfile=y.appendChild(domProfile.createElement("form"));
+			var baseuri=app.tab[tab].baseUri
+			if(baseuri.match(/\?/)){
+				baseuri=baseuri.replace(/\?.*$/,"");
 			}
+			app.tab[tab].nodeProfile	= domProfileDE.selectSingleNode("chat-room[@baseuri='"+baseuri+"?type=xml']/form");
+			if(!app.tab[tab].nodeProfile){
+				app.tab[tab].nodeProfile	= domProfileDE.selectSingleNode("chat-room[@baseuri='"+baseuri+"']/form");
+				if(!app.tab[tab].nodeProfile){
+					domProfileDE.appendChild(domProfile.createTextNode("\n"));
+					var x=domProfile.createElement("chat-room");
+					x.setAttribute("baseuri",baseuri);
+					var y=domProfileDE.appendChild(x)
+					app.tab[tab].nodeProfile=y.appendChild(domProfile.createElement("form"));
+				}
+			}
+			app.tab[tab].nodeProfile.parentNode.setAttribute("baseuri",baseuri+"?type=xml");
 		}
 
 		var x=app.tab[tab].domSetting.documentElement.selectNodes("options/item");
@@ -605,7 +628,7 @@ function select_chat(tab){
 			app.tab[tab].options.reload = app.defaultReload
 		}
 
-		var	dom		= getDOMDocument();
+		var	dom		= new ActiveXObject(progid_xmldom);
 		var pain	= dom.createDocumentFragment();
 		var form	= pain.appendChild(dom.createElement("form"));
 		form.setAttribute("onsubmit","wrapper_talk(); return false;");
@@ -992,11 +1015,16 @@ function wrapper_send(isPost,tab){
 
 function wrapper_request_ajax(isPost,uri,query,tab){
 	if(app.tab[tab].http_timeout) wrapper_request_ajax_timeout(tab);
+
 	var req=null;
-	try{
-		req = new ActiveXObject("MSXML2.XMLHTTP");
-	}catch(e){
-		req = new ActiveXObject("Microsoft.XMLHTTP");
+	if(window.XMLHttpRequest){
+		req = new XMLHttpRequest;
+	}else{
+		try{
+			req = new ActiveXObject("MSXML2.XMLHTTP.6.0");
+		}catch(e){
+			req = new ActiveXObject("Microsoft.XMLHTTP");
+		}
 	}
 	req.onreadystatechange = function(){
 		if(req.readyState == 4){
@@ -1004,6 +1032,7 @@ function wrapper_request_ajax(isPost,uri,query,tab){
 			req=null;
 		}
 	}
+
 	if(isPost){
 		req.open("POST", uri, true);
 		req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -1011,13 +1040,6 @@ function wrapper_request_ajax(isPost,uri,query,tab){
 		req.setRequestHeader("Referer","null");
 		req.send(query);
 	}else{
-/*
-		if(uri.match(/\?/)){
-			req.open("GET",uri+"&NOCACHE="+parseInt(new Date().valueOf()/1000),true);
-		}else{
-			req.open("GET",uri+"?NOCACHE="+parseInt(new Date().valueOf()/1000),true);
-		}
-*/
 		req.open("GET", uri, true);
 		if(app.tab[tab].lastModified){
 			req.setRequestHeader("If-Modified-Since",app.tab[tab].lastModified.toString());
@@ -1063,10 +1085,19 @@ try{
 	}
 	clear_reload_tab(tab);
 
-	var	domChat	= req.responseXML;
+	var	domChat	= null;
+	if(req.status==200){
+		if(req.responseXML&&req.responseXML.documentElement){
+			domChat	= req.responseXML;
+		}else if(req.getResponseHeader("Content-Type").match(/^application\/\w+\+xml/i)){
+			domChat	= new ActiveXObject(progid_xmldom);
+			domChat.loadXML(req.responseText);
+		}
+	}
+
 
 	wrapper_triger_reload_implicit(tab);
-	if(req.status==200&&domChat.documentElement){
+	if(req.status==200 && domChat.documentElement){
 		//wrapper_append_global_log_string( new Date().strftime('%H:%M:%S')+": parse "+tab);
 
 		var	now	= parseInt(new Date().valueOf()/1000);
@@ -1077,22 +1108,27 @@ try{
 		app.allow_tag_list	=	new RegExp("^("+document.getElementById("idSafeTagList").value.split(/\s+/).join("|")+")$","i");
 
 		//domChat.documentElement.addNamespace("terra","http://wahah.jp/Terra/CastExtention");
+		//domChat.documentElement.addNamespace("tracks","http://mixi.jp/atom/ns#tracks");
 
 		//	モジュール認識
 		var module="cast";
 		switch(""+domChat.documentElement.getAttribute("xmlns")){
-		case "http://purl.org/rss/1.0/": // RSS 1.0
+		case "http://purl.org/rss/1.0/":	// RSS 1.0
 			module="rss";
 			break;
 
-		case "http://www.w3.org/2005/Atom":	//	atom
+		case "http://www.w3.org/2005/Atom":	//	Atom
 		case "http://purl.org/atom/ns#":	// Atom 0.3
 			module="atom";
 			break;
 
+		case "http://www.w3.org/1999/xhtml":	// XHTML
+			module="xhtml";
+			break;
+
 		default:
 			switch(""+domChat.documentElement.nodeName){
-			case "rss": // RSS 2.0
+			case "rss":	// RSS 2.0
 				module="rss";
 				break;
 			}
@@ -1130,7 +1166,7 @@ try{
 		for(var i=0;i<e_links.length;i++){
 			var e_link=e_links.item(i);
 			var h_link={
-				"title":e_link.getAttribute("title"),
+				"title":e_link.getAttribute("title")||e_link.getAttribute("rel")||"link",
 				"href":e_link.getAttribute("href")
 			};
 			a_links.push(h_link);
@@ -1141,7 +1177,7 @@ try{
 			for(var i=0;i<e_links.length;i++){
 				var e_link=e_links.item(i);
 				var h_link={
-					"title":e_link.getAttribute("title"),
+					"title":e_link.getAttribute("title")||e_link.getAttribute("rel")||"link",
 					"href":e_link.getAttribute("href")
 				};
 				a_links.push(h_link);
@@ -1161,6 +1197,9 @@ try{
 			if(u) updated = u;
 			break;
 		case "atom":
+			var u=date_to_date(getElementText(domChat.documentElement.selectSingleNode("entry/updated")));
+			if(u) updated = u;
+			break;
 		case "cast":
 			var u=date_to_date(getElementText(domChat.documentElement.selectSingleNode("updated")));
 			if(u) updated = u;
@@ -1209,6 +1248,7 @@ try{
 					let_string_if(hash,"updated",getElementText(member.selectSingleNode("updated")));
 					let_string_if(hash,"id"	,getElementText(member.selectSingleNode("id")));
 					hash["name"]=getElementText(member.selectSingleNode("name"));
+					let_string_if(hash,"status"	,getElementText(member.selectSingleNode("status")));
 					let_string_if(hash,"color"	,getElementText(member.selectSingleNode("color")));
 					let_string_if(hash,"uri"	,getElementText(member.selectSingleNode("uri")));
 					let_string_if(hash,"email"	,getElementText(member.selectSingleNode("email")));
@@ -1223,8 +1263,11 @@ try{
 						rwm++,rom--;
 						var u=date_to_date(hash["updated"]);
 						memlist.push("<span style="+escapeAttribute("color: "+hash["color"])+" title="
-								+escapeAttribute((u?(now-parseInt(u.valueOf()/1000))+"秒":"")
-								+(hash["uri"]?"\nHome: "+hash["uri"]:"")+(hash["email"]?"\nE-mail: "+hash["email"]:""))+">"
+								+escapeAttribute(
+									(u?(now-parseInt(u.valueOf()/1000))+"秒":"")
+									+((typeof hash["status"]=="string")?"\nStatus: "+hash["status"]:"")
+									+(hash["uri"]?"\nHome: "+hash["uri"]:"")+(hash["email"]?"\nE-mail: "+hash["email"]:"")
+								)+">"
 								+(hash["icon"]?"<img src="+escapeAttribute(hash["icon"])+" height=\"16\" />":"")
 								+encodeEntity(hash["name"]+((typeof hash["status"]=="string")?"("+hash["status"]+")":""))+"</span>,");
 					}
@@ -1232,9 +1275,9 @@ try{
 			}
 		}
 		document.getElementById("chatMember."+tab).innerHTML	= 	"[<a href=\"#\" onclick=\"wrapper_reload();\">"+format_time(new Date)+"</a>] "
-			+(rom+rwm? (rom?"ROM("+rom+") ":"")+"参加者("+rwm+") "+memlist.join(" ") : "最終更新："+format_date(app.tab[tab].lastModified) );
+			+(rom+rwm? (rom?"ROM("+rom+") ":"")+"参加者("+rwm+") "+memlist.join(" ") : "最終更新："+format_date(app.tab[tab].lastModified)+" ("+module.toUpperCase()+")" );
 
-		if(!app.tab[tab].cached || redraw){
+		if(1 || !app.tab[tab].cached || redraw){
 			var a=[];
 			switch(module){
 			case "cast":
@@ -1256,15 +1299,24 @@ try{
 						}
 						let_string_if(l,"id"	,getElementText(author.selectSingleNode("id")));
 						l["name"]	= getElementText(author.selectSingleNode("name"));
+						if(l_status=getElementText(author.selectSingleNode("status"))){
+							l["name"] += "["+l_status+"]";
+						}
 						let_string_if(l,"color"	,getElementText(author.selectSingleNode("color")));
 						let_string_if(l,"uri"	,getElementText(author.selectSingleNode("uri")));
 						let_string_if(l,"email"	,getElementText(author.selectSingleNode("email")));
 
-						l["text"]="";
-						let_string_if(l,"text"	,getElementText(article.selectSingleNode("terra:text")));
+						var a_text=[];
 						if(author.selectSingleNode("level")){
-							l["text"]+="Lv "+getElementText(author.selectSingleNode("level"))+", Exp "+getElementText(author.selectSingleNode("exp"));
+							a_text.push("Lv "+getElementText(author.selectSingleNode("level")));
 						}
+						if(author.selectSingleNode("exp")){
+							a_text.push("Exp "+getElementText(author.selectSingleNode("exp")));
+						}
+						if(s_text=getElementText(article.selectSingleNode("terra:text"))){
+							a_text.push(s_text);
+						}
+						l["text"]=a_text.join(", ");
 
 						if(icon_enable){
 							var ic = author.selectSingleNode("icon");
@@ -1290,7 +1342,8 @@ try{
 								}
 							}
 							if (app.selected != tab) {
-								var p = new_messages.appendChild(document.createElement('p'));
+								var p = document.createElement('p');
+								new_messages.appendChild(p);
 								p.setAttribute('ondblclick', 'select_chat(tab); this.blur(); return false;');
 								p.innerHTML = '<span class="globalLogTime">' + l.updated.strftime('%H:%M ') +
 								'<span class="globalLogChannel">&lt;' + app.tab[tab].title +
@@ -1327,9 +1380,29 @@ try{
 					if(!ed){
 						ed=date_to_date(getElementText(entry.selectSingleNode("updated")));
 					}
-					loga.push("<dl><dt>"+encodeEntity(getElementText(entry.selectSingleNode("title")))
-						+" <span class=\"date\">("+format_date(ed)+")</span></dt>"
-						+"<dd>"+getElementContents(ec, "")+"</dd></dl>");
+					var tr=entry.selectSingleNode("author/tracks:relation");
+					var relation="";
+					switch(getElementText(tr)){
+					case "friend":
+						relation="友人";
+						break;
+					case "related":
+						relation="友人の友人";
+						break;
+					}
+					var ti=getElementText(entry.selectSingleNode("author/tracks:image"));
+					var content="";
+					if(ec){
+						content=getElementContents(ec, "");
+					}
+					loga.push(
+						(content?"<dl><dt>":"<div class=\"log\">")
+						+(ti?"<img src="+escapeAttribute(app.iconcache+"?height="+app.icon_height+"&uri="+encodeURIComponent(ti))+" /> ":"")
+						+encodeEntity(getElementText(entry.selectSingleNode("title")))
+						+(relation?" <strong>("+relation+")</strong>":"")
+						+" <span class=\"date\">("+format_date(ed)+")</span>"
+						+(content?"</dt><dd>"+content+"</dd></dl>":"</div>")
+						);
 				}
 				break;
 			case "rss":
@@ -1349,9 +1422,31 @@ try{
 						ed=new Date(getElementText(entry.selectSingleNode("pubDate")));
 					}
 					loga.push("<dl><dt>"+encodeEntity(getElementText(entry.selectSingleNode("title")))
-						+" <span class=\"date\">("+format_date(ed)+")</span></dt>"
+						+(ed?" <span class=\"date\">("+format_date(ed)+")</span>":"")+"</dt>"
 						+"<dd>"+getElementContents(ec, "")+"</dd></dl>");
 				}
+				break;
+			case "xhtml":
+				loga.push("<dl>");
+				var title=domChat.documentElement.selectSingleNode("/html/head/title");
+				if(title){
+					loga.push("<dt>"+encodeEntity(getInnerXML(title))+"</dt>");
+				}
+				var body=domChat.documentElement.selectSingleNode("/html/body");
+				if(body && body.childNodes){
+					for(var i=0;i<body.childNodes.length;i++){
+						var e=body.childNodes[i];
+						switch(e.nodeName){
+						case "div":
+						case "p":
+							loga.push("<dd>"+encodeEntity(getInnerXML(e))+"</dd>");
+							break;
+						default:
+							break;
+						}
+					}
+				}
+				loga.push("</dl>");
 				break;
 			case "simple":
 			default:
@@ -1390,7 +1485,7 @@ try{
 						+"<td><span"+(hash["color"]?" style=\"color: "+hash["color"]+"\"":"")+">"+encodeEntity(hash["name"])
 						+"</span> &gt; <span"+(hash["bcolo"]?" style=\"color: "+hash["bcolo"]+"\"":"")+">"+(hash["body"])+"</span>"
 						+" <span class=\"date\"" + (!hash["delete"] && hash["delete"] != undefined ? 'style="color:red"' : "") + ">("+format_date(hash["updated"])
-						+(hash["text"]?", "+hash["text"]:"")
+						+(hash["text"]?" "+hash["text"]:"")
 						+(hash["email"]?"<a href="+escapeAttribute("mailto:"+hash["email"])+" title="+escapeAttribute("E-mail: "+hash["email"])+"><img src=\"lib/themes/email.png\" /></a>":"")
 						+(hash["uri"]?"<a href="+escapeAttribute(hash["uri"])+" title="+escapeAttribute("Link: "+hash["uri"])+" onclick=\"return nav(this.href)\"><img src=\"lib/themes/home.png\" /></a>":"")
 						+(hash["delete"]?"<a href=\"#\" title=\"削除\" onclick=\"return wrapper_delete_article('"+
@@ -1443,9 +1538,6 @@ encodeEntity(hash["delete"]).replace(/\'/g,'&#39;').replace(/\"/g,'&#34;')
 function getElementContents(e, purl0){
 	var s="";
 	switch(e.getAttribute("type")){
-	case "text":
-		return encodeEntity(getElementText(e));
-		break;
 	case "xhtml":
 		switch(e.firstChild.nodeName){
 		case "body":
@@ -1457,7 +1549,23 @@ function getElementContents(e, purl0){
 			return HTML.parse(getInnerXML(e), purl0);
 		}
 	default:
-		return HTML.parse(getElementText(e), purl0);
+		var text=getElementText(e);
+
+		if(e.getAttribute("type")=="html"){
+			text=text.replace(/\s+/g," ").replace(/<br\s*?\/>/ig,"\n");
+		}
+
+		if(text.match(/</)){
+			switch(e.getAttribute("type")){
+			case "text":
+				return encodeEntity(decodeEntity(text));
+			default:
+				return HTML.parse(text, purl0);
+			}
+		}else{
+			return encodeEntity(decodeEntity(text)).replace(app.regexp_autolink,function(a,v1,v2){
+				return v1+"<a class=\"autolink\" onclick="+escapeAttribute("return nav(\""+v2+"\")")+" href="+escapeAttribute(decodeEntity(v2))+">"+v2+"</a>"});
+		}
 	}
 }
 
@@ -1537,17 +1645,28 @@ function add_feed(button,uri){
 			msgbox("この URL からは読み取れませんでした。\n\n"+uri+"\n\nHTTP "+req.status+" "+req.statusText);
 			return;
 		}
-		if(!req.responseXML || !req.responseXML.documentElement){
+		var root	= null;
+		var domTemp	= null;
+		if(req.responseXML&&req.responseXML.documentElement){
+			root	= req.responseXML.documentElement
+		}else if(req.getResponseHeader("Content-Type").match(/^application\/\w+\+xml/i)){
+			domTemp	= new ActiveXObject(progid_xmldom);
+			domTemp.loadXML(req.responseText);
+			root	= domTemp.documentElement;
+		}
+
+		if(!root){
 			msgbox("正しい XML 形式の文書ではありません。\n\n"+uri+"\n\n"+req.getResponseHeader("Content-Type"));
 			return;
 		}
-		var rn=req.responseXML.documentElement.getAttribute("xmlns");
-		if(!rn) rn = "::"+req.responseXML.documentElement.nodeName;
+
+
+		var rn=root.getAttribute("xmlns");
+		if(!rn) rn = "::"+root.nodeName;
 		switch(rn){
 		case "http://airemix.org/2005/ChatXML":	// ChatXML WD2
 		case "http://airemix.org/2005/Cast":	// Cast WD3+
-			var root	= req.responseXML.documentElement;
-			var	system_name	= getElementText(root.selectSingleNode("system/uri")).replace(/(?:\/(?:\d+(?:\.\d+)*)?)$/,'');
+			var	system_name	= getElementText(root.selectSingleNode("system/uri")).replace(/(?:\/(?:\d+(?:\.\d+)*)?)?$/,"");
 			var system	= system_name_table[system_name];
 			if(!system){
 				system="Cast_Unknown.xml";
@@ -1556,7 +1675,7 @@ function add_feed(button,uri){
 			var title		= getElementText(root.selectSingleNode("entry/title")) || site_name;
 			var org_link	= root.selectSingleNode("entry/link");
 			//var hash={"type":"cast","acc:system":system,"text":title,"xmlUrl":a[1]};
-			var hash={"type":"cast","acc:system":system,"text":title,"xmlUrl":uri};
+			var hash={"type":"rss","acc:system":system,"text":title,"xmlUrl":uri};
 			if(org_link){
 				hash["htmlUrl"]=org_link.getAttribute("href");
 			}
@@ -1567,7 +1686,6 @@ function add_feed(button,uri){
 
 		case "http://www.w3.org/2005/Atom":	//	Atom 1.0
 		case "http://purl.org/atom/ns#":	//	Atom 0.3
-			var root	= req.responseXML.documentElement;
 			var title	= getElementText(root.selectSingleNode("title"));
 			var org_link	= root.selectSingleNode("link");
 			var hash={"type":"rss","text":title,"xmlUrl":uri};
@@ -1581,7 +1699,6 @@ function add_feed(button,uri){
 
 		case "http://purl.org/rss/1.0/":	// RSS 1.0
 		case "::rss":						// RSS0.91/RSS 2.0
-			var root	= req.responseXML.documentElement;
 			var title	= getElementText(root.selectSingleNode("channel/title"));
 			var org_link	= root.selectSingleNode("channel/link");
 			var hash={"type":"rss","text":title,"xmlUrl":uri};
@@ -1613,7 +1730,7 @@ function add_tab(e){
 		"orgUri":""+e["htmlUrl"],
 		"siteName":"",
 		"pathSetting":"./lib/templates/"+(e["acc:system"] || "Atom.xml"),
-		"domSetting":getDOMDocument(),
+		"domSetting":new ActiveXObject(progid_xmldom),
 		"nodeProfile":null,
 		"timer":null,
 		"implicit_reload_uri":"",
@@ -1715,12 +1832,12 @@ function foreach( c, functor ){
 function msgbox(s){
 	wrapper_append_global_log_string(s);
 	return showModalDialog
-		("./lib/dlgMessageBox.html",{"type":"message", "title":app.name, "message":s}
+		("./lib/dlgMessageBox.html",{"window":window, "type":"message", "title":app.name, "message":s}
 		,"status:false;dialogWidth:480px;dialogHeight:160px");
 }
 
 function msgbox_yn(s){
-	return showModalDialog("./lib/dlgMessageBox.html",{"type":"confirm", "title":app.name, "message":s},"status:false;dialogWidth:480px;dialogHeight:160px");
+	return showModalDialog("./lib/dlgMessageBox.html",{"window":window, "type":"confirm", "title":app.name, "message":s},"status:false;dialogWidth:480px;dialogHeight:160px");
 }
 
 function wrapper_request_ajax_timeout(tab){
@@ -1747,14 +1864,6 @@ function wrapper_append_global_log(frag){
 	}
 }
 
-function getDOMDocument(){
-	try{
-		return new ActiveXObject("MSXML2.FreeThreadedDOMDocument");
-	}catch(e){
-		return new ActiveXObject("Microsoft.XMLDOM")
-	}
-}
-
 Date.prototype.strftime = function(format){
 	var date = this;
 	return format.replace(/%([\w%])/g, function(a,b){
@@ -1772,6 +1881,52 @@ Date.prototype.strftime = function(format){
 	});
 };
 
+		</script>
+		<HTA:APPLICATION
+			id="oHTA"
+			applicationName="acc_revolution"
+			border="thick"
+			borderStyle="normal"
+			caption="yes"
+			contextmenu="yes"
+			icon="lib/themes/app.ico"
+			innerBorder="no"
+			maximizeButton="no"
+			minimizeButton="yes"
+			scroll="yes"
+			scrollFlat="yes"
+			selection="yes"
+			singleInstance="no"
+			sysMenu="yes"
+			version="1.05"
+			windowState="normal"
+			/>
+	</head>
+	<body onkeydown="hook_keys(event)">
+		<div class="layout">
+			<object id="oAccHelper" width="0" height="0" classid="clsid:d172c6e0-cb85-11da-a94d-0800200c9a66"></object>
+
+			<div id="barTabContainer" oncontextmenu="return false;">
+				<span id="barTab"></span>
+			</div>
+			<div id="painPoolContainer">
+
+				<div id="tabContents99" oncontextmenu="return false;">
+
+					<fieldset>
+						<legend>Cast/Atom/RSS の読み込み</legend>
+						<form id="id_add_feed_form" onsubmit="add_feed(this,document.getElementById('id_add_feed_url').value); return false;">
+							<label>URL: <input type="text" class="i_text" id="id_add_feed_url" onfocus="this.select()" /></label>
+							<input type="submit" class="submitButton" value="GO" />
+						</form>
+					</fieldset>
+
+					<div id="id_config_html_here" /></div>
+					<hr />
+					<address>Copyright &copy; 2005,2006,2007 <a href="http://wahah.jp/" onclick="return nav(this.href)">Nerry Kitazato</a>, ALL RIGHTS RESERVED.</address>
+				</div>
+				<div id="painPool"></div>
+			</div>
 
 
 /*
@@ -1838,7 +1993,7 @@ Date.prototype.strftime = function(format){
 			<div id="id_config_html_here" /></div>
 			<hr />
 			<address>Copyright &copy; 2005,2006,2007 <a href="http://wahah.jp/" onclick="return nav(this.href)">Nerry Kitazato</a>, ALL RIGHTS RESERVED.</address>
-			<address>Copyright &copy; 2005-2007 <a href="http://airemix.com/" onclick="return nav(this.href)">Airemix</a>, ALL RIGHTS RESERVED.</address>
+			<address>Copyright &copy; 2005-2009 <a href="http://airemix.com/" onclick="return nav(this.href)">Airemix</a>, ALL RIGHTS RESERVED.</address>
 		</div>
 		<div id="painPool"></div>
 	</div>
@@ -1854,8 +2009,8 @@ Date.prototype.strftime = function(format){
 				<div class="hr"></div>
 				<a class="menu" href="#" onclick="window.parent.close_tab(document.tab);">閉じる</a>
 			</div>
-		</div>
-	</div>
 
-</div></body></html>
+		</div>
+	</body>
+</html>
 

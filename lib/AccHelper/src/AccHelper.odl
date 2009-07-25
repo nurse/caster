@@ -1,0 +1,75 @@
+// AccHelper.odl : ActiveX コントロール プロジェクトのタイプ ライブラリのソース
+
+// このファイルはタイプ ライブラリ (AccHelper.tlb) を作成するために
+// タイプ ライブラリ作成ツール (mktyplib) によって処理されます。
+// タイプ ライブラリは AccHelper.ocx のリソースになります。
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(36CE9E7E-B517-42A6-B144-F007AB3CB773), version(1.0),
+  helpfile("AccHelper.hlp"),
+  helpstring("AccHelper Control"),
+  control ]
+library ACCHELPERLib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  CAccHelperCtrl の最初のディスパッチ インターフェイス
+
+	[ uuid(F542C698-2BCB-43EB-8D24-EE82770209A5),
+	  helpstring("AccHelper Dispatch Interface"), hidden ]
+	dispinterface _DAccHelper
+	{
+		properties:
+			// メモ - ClassWizard はこの位置にプロパティ情報を追加します。
+			//    このセクションの編集は慎重に行ってください。
+			//{{AFX_ODL_PROP(CAccHelperCtrl)
+			[id(1)] long opacity;
+			[id(2)] boolean topmost;
+			[id(3)] IDispatch* onActivate;
+			//}}AFX_ODL_PROP
+
+		methods:
+			// メモ - ClassWizard はこの位置にメソッド情報を追加します。
+			//    このセクションの編集は慎重に行ってください。
+			//{{AFX_ODL_METHOD(CAccHelperCtrl)
+			[id(4)] long Init(BSTR title);
+			[id(5)] void FlashWindow();
+			[id(6)] void Test(VARIANT p1, VARIANT p2, VARIANT p3, VARIANT p4);
+			[id(7)] long PlaySound(BSTR src);
+			[id(8)] long GetVersion();
+			//}}AFX_ODL_METHOD
+	};
+
+	//  CAccHelperCtrl のイベント ディスパッチ インターフェイス
+
+	[ uuid(12D4EDC3-55AB-490F-9795-B05747A69200),
+	  helpstring("Event interface for AccHelper Control") ]
+	dispinterface _DAccHelperEvents
+	{
+		properties:
+			//  イベント インターフェイスにプロパティはありません
+
+		methods:
+			// メモ - ClassWizard はこの位置にイベント情報を追加します。
+			//    このセクションの編集は慎重におこなってください。
+			//{{AFX_ODL_EVENT(CAccHelperCtrl)
+			//}}AFX_ODL_EVENT
+	};
+
+	//  CAccHelperCtrl のクラス情報
+
+//	[ uuid(8AB190D5-6A7F-4648-9FCE-93C4291C2682),helpstring("AccHelper Control"), control ]
+	[ uuid(d172c6e0-cb85-11da-a94d-0800200c9a66),helpstring("AccHelper Control"), control ]
+	coclass AccHelper
+	{
+		[default] dispinterface _DAccHelper;
+		[default, source] dispinterface _DAccHelperEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

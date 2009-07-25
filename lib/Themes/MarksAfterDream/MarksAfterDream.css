@@ -1,10 +1,10 @@
-/*
+﻿/*
 
 	AjacChatClient ゆめのあと 風味テーマ
 
 */
 
-﻿a {
+a {
 	color: #A0F;
 	text-decoration: none;
 }
@@ -81,12 +81,12 @@ h2 {
 .layout{
 
 }
-.logMember {
+.chatMember {
 	padding: 2px;
 	background: #FFF;
 	border: #888 solid 1px;
 }
-.logMember img {
+.chatMember img {
 	vertical-align: middle;
 }
 .log{

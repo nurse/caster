@@ -15,9 +15,10 @@
 		</fieldset>
 		<fieldset type="option">
 			<input	type="string"	perceivedType="color"	name="color" saving="yes" get="yes" post="yes" value="#343434" size="10" label="発言色" />
+			<input	type="string"	perceivedType="uri"	name="uri" saving="yes" post="yes" value="" size="10" label="Site" />
 			<input	type="string"	perceivedType="icon"	name="icon" saving="yes" post="yes" value="" size="10" label="アイコン" />
 			<input	type="string"	perceivedType="text"	name="hash" saving="yes" get="yes" post="yes" value="" size="10" label="ID" />
-			<input type="string"	perceivedType="text"	name="email" saving="yes" post="yes" value="" size="10" label="E-mail" />
+			<input	type="string"	perceivedType="email"	name="email" saving="yes" post="yes" value="" size="10" label="E-Mail" />
 			<input type="string"	perceivedType="text"	name="uri" saving="yes" post="yes" value="" size="10" label="Site" />
 			<input	type="hidden"	perceivedType="reload"	name="retime" get="yes" post="yes" value="30" />
 			<input	type="fixed"	perceivedType="text"	name="check" get="yes" post="yes" value="表" />
