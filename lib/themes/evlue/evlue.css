@@ -1,0 +1,208 @@
+﻿/* Caster theme Evlue 2007.4.12 沙奈 */
+
+A:link {
+	border-bottom: dashed 1px #88f;
+	color: #44f;
+	text-decoration: none;
+}
+A:visited {
+	border-bottom: dashed 1px #b9f;
+	color: #97d;
+	text-decoration: none;
+}
+
+A:active {
+	border-bottom: dashed 1px #f00;
+	color: #f00;
+	text-decoration: none;
+}
+
+A:hover {
+	border-bottom: dashed 1px #f00;
+	color: cornflowerblue;
+	text-decoration: none;
+}
+html,body,input,button,table,textarea,select {
+	font: 12px "MS PGothic","Verdana"; 
+}
+html,body {
+	padding: 0;
+	margin: 0;
+	background: url("./eveblue.png");/* #F7F7F7;*/
+	color: #666; 
+}
+html {
+	overflow-y: visible;
+}
+body {
+	width: 100%;
+	height: 100%;
+}
+button,input,select,textarea{
+	vertical-align: middle;
+}
+button{
+	height: 20px;
+}
+dl {
+	font: 10pt/1 "Meiryo",sans-serif
+	margin: 4px;
+	padding: 0;
+}
+dd {
+	margin: 4px 1em 1em;
+	padding: 0;
+}
+dt {
+	font-weight: bold;
+	border-bottom: solid 1px #888888;
+	background: #FFFFFF;
+	color: #555555;
+	padding: 2px 2px 0px;
+}
+em{
+	font-style: normal;
+	color: red;
+}
+em.caution{
+	font-size: smaller;
+}
+form{
+	margin: 0;
+	padding: 0;
+}
+.layout{
+
+}
+.chatMember {
+	padding: 2px;
+	background-color: #e0e4ff;
+	border-top: 1px dashed #989EFF;
+	border-bottom: 1px dashed #989EFF;
+}
+.chatMember img {
+	vertical-align: middle;
+}
+.log{
+	border-bottom: #888888 dashed 1px;
+}
+.log img {
+	vertical-align: middle;
+	border: none;
+	margin: 1px;
+/*	margin-right:2px;
+	vertical-align: middle;
+	border-color:#9999FF; 
+	border-style:solid; 
+	border-width:1px 1px 1px 1px;*/
+}
+.date {
+	color: #888888;
+	font-size: smaller;
+	font-weight: normal;
+}
+.dlgIconList {
+	padding: 4px;
+	border: 2px solid #AAA;
+}
+.submitButton, .submitButtonHover, .button, .buttonHover, #barTabContainer a {
+	display: inline-block;
+	margin: 1px;
+	padding: 0 3px;
+	border-style: none;
+	vertical-align: middle;
+	overflow: hidden;
+	width: 64px;
+	height: 20px;
+	white-space: nowrap;
+	cursor: pointer;
+	text-decoration: none;
+	font: 12px/20px "MS UI Gothic";
+	text-align: center;
+}
+.badtags {
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	color: #00F;
+}
+.extratags {
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: line-through;
+	color: #088;
+}
+.notags {
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	color: #F00;
+}
+#barTabContainer a {
+	width: 56px;
+	height: 18px;
+}
+#barTabContainer .disabled {
+	background-color: #ECF0F8;
+	border: 1px solid #D3D9F6;
+	color: #b8b8b8;
+}
+#barTabContainer .inactive {
+	background-color: #B7C1FD;
+	border: 1px solid #B5BFFB;
+	color: #666;
+}
+#barTabContainer .inactive:hover {
+	background-color: #A0A8F0;
+	border: 1px solid #B5BFFB;
+}
+#barTabContainer .updated {
+	background-color: #FF0888;
+	border: 1px solid #D4DAF6;
+	color: #FFF;
+	font-weight: bold;
+}
+#barTabContainer .updated:hover {
+	text-decoration: underline;
+}
+#barTabContainer .active {
+	background-color: #8087EF;
+	border: 1px solid #C4CDF9;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+.submitButton, .submitButtonHover {
+	background: url("button_black.png") no-repeat left top transparent;
+	color: #FFF;
+}
+.button {
+	background: url("button_white.png") no-repeat left top transparent;
+	color: #000;
+}
+.buttonHover, .button:hover {
+	background: url("button_blue_hover.png") no-repeat left top transparent;
+	color: #000;
+}
+#tabContents99 {
+	padding: 4px;
+}
+.chatLog {
+	height: 400px;
+	overflow-y: scroll;
+}
+.log {
+	word-break: break-all;
+}
+.log .delete_article {
+	color: #f00;
+	font-size: smaller;
+	font-weight: normal;
+}
+#globalLog {
+	height: 100px;
+	overflow-y: scroll;
+	word-break: break-all;
+}
+#globalLog p {
+	margin: 0;
+}

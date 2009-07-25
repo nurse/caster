@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<title>AjaxChatClient</title>
+<link rel="stylesheet" type="text/css" media="screen" href="./lib/themes/MarksAfterDream/MarksAfterDream.css" />
+</head><body><div class="layout">
+
+<h1>AjaxChatClient</h1>
+
+<address>Copyright (c)2005,2006,2007 Nerry Kitazato, All rights reserved.</address>
+
+<h2>アルファ版について</h2>
+<p><em>このバージョンは見切りのアルファリリースです。一部機能の実装が不十分である事をご了承ください。</em></p>
+
+<h2>これはなに</h2>
+<p>
+HTA技術とAjax技術を利用してCastプロトコルに対応した専用チャットクライアントです。
+通常のCGIチャットだけでは実現が難しい機能を持っているので常駐に便利です。
+0.21からはActiveXコントロールを組み込んだのでさらに高度なことが可能になりました。
+</p>
+
+<ul><li>Cast Syndication Format<ul>
+<li><a href="http://airemix.org/TR/Cast/">http://airemix.org/TR/Cast/</a></li>
+<li><a href="http://airemix.org/TR/Cast/cast.rnc">current spec</a></li>
+</ul></li></ul>
+
+<p>主に以下のチャットシステムに対応しています。</p>
+<dl>
+<dt>Terra系</dt><dd>今のところ作者のウェブサイトのみです。</dd>
+<dt>WindChat系</dt><dd>一部のウェブサイトで利用しています。</dd>
+<dt>Marldia系</dt><dd>今のところ一番対応チャットが多いと思います。</dd>
+</dl>
+<p>よくいくチャットが対応してない場合は仕様書を見て対応してもらいましょう。</p>
+
+<h2>動作環境</h2>
+<ul>
+<li>Internet Explorer 7 がインストールされた Windows XP</li>
+<li>1.5GHz以上のCPUと512MB以上のメモリを推奨</li>
+</ul>
+<p><em>※Windows 2000/Windows Vista/Internet Explorer 6 等がインストールされたコンピュータでは、動くかもしれませんが十分にテストされていません。
+それより古いものをサポートするつもりはありません。</em></p>
+
+<h2>インストール・アンインストール</h2>
+
+<p><em>※注意※
+このプログラムは専用の ActiveX コントロールをシステムに登録しているのでインストール毎に必ず以下の手順を行ってください。<br />
+再インストールやフォルダの移動の際も同じ手順が必要です。
+</em></p>
+
+<h3>※インストール※</h3>
+<p>
+ファイルを適当になフォルダに移動した後に install.bat を実行してください。
+好みに応じて Revolution.hta へのショートカットをデスクトップやプログラムランチャーに登録してください。
+</p>
+<h3>※アンインストール※</h3>
+<p>
+  uninstall.bat を実行した後にフォルダ内のファイルを全部削除してください。
+</p>
+<h3>※バージョンアップ※</h3>
+<p>
+バージョンアップ前に古いフォルダにある uninstall.bat を実行して ActiveX の登録を解除し、
+ファイルをコピーした後、新しいフォルダにある install.bat を実行して登録しなおしてください。
+</p>
+
+<h2>実行方法</h2>
+<p>Revolution.hta を実行してください。</p>
+<p><em>多重起動はサポートしていません。一切の動作保証をしません。</em></p>
+
+<h2>設定ファイル</h2>
+<p>
+以下のファイルはユーザーの操作によって自動的に保存されるデータファイルです。
+これらのファイルをコピーする事でバージョンアップ時のマイグレーションや異なるマシンへのデータ移行ができます。
+また、設定を誤って起動しない場合はこれらのファイルを削除すれば初期化できます。
+</p>
+
+<p><em>※これらのファイルを操作する前に必ずプログラムを終了してください。</em></p>
+<ul><li>etc/profile.xml<ul><li>
+「設定」タブ内の設定、ウィンドウ位置、各タブのフォーム内容を保存するファイルです。</li>
+<li>設定を誤ってうまく起動しなくなった場合はこのファイルを削除してください。</li></ul></li></ul>
+
+<ul><li>etc/setting.opml<ul><li>バージョン 0.26 以降のOPML形式のタブ定義ファイルです。</li></ul></li></ul>
+
+<h2>チャットルームの追加</h2>
+<p>
+  「設定」タブにある「チャットルームの追加」の「Feed URL」の所にチャットの
+  Feed URLを入力してください。
+  「http://○○.com/△△.cgi?type=xml」のように入力するとたいてい繋がります。
+</p>
+
+<h2>タブの色</h2>
+<pre>
+  ※スキンによっては色合いが異なる場合があります。
+
+  青の強調
+    アクティブなタブです。発言可能です。
+
+  赤の強調
+    非アクティブ時に更新があったタブです。
+
+  明るい灰色
+    非アクティブなタブです。表示されない間も自動的にリロードされています。
+
+  淡い灰色
+    未使用のタブです。一切リロードされません。
+</pre>
+
+<h2>タブ上の操作</h2>
+<pre>
+  左クリック
+    タブを選択
+
+  ダブルクリック
+    タブのリロード
+
+  右クリック
+    メニュー表示
+</pre>
+
+<h2>主なショートカットキー</h2>
+<pre>
+  Ctrl + Tab / Ctrl + Shift + Tab
+    タブを順序・逆順切り替え
+
+  Ctrl + R
+    アクティブなタブをリロード
+
+  Ctrl + W
+    アクティブなタブを閉じる
+
+  Alt + 1～9
+    最初の9個までのタブを直接呼び出す
+
+  Alt + 0
+    設定タブを呼び出す
+</pre>
+
+<h2>既知の問題</h2>
+<pre>
+  タブの切り替えの際に裏のタブにフォーカスが切り替わることがある。
+    →最近は問題が発生しているという噂をきかないので直ったのか不明です。
+
+  タブ上のコンテキストメニューでエラーが発生することがある。
+    →現在原因を調査中です。
+
+  設定ファイルがOPML形式になってる意味がないんじゃないか？
+    →汎用性は薄いのでOPMLの意味がないかもしれません。
+
+  Atom/RSS対応が弱い
+    →基本的に告知情報のためのおまけ機能です。
+</pre>
+
+<h2>Castに対する拡張要素</h2>
+<pre>
+  以下の拡張要素でcastの仕様外の機能を追加できます。
+
+  xmlns:terra="http://wahah.jp/Terra/CastExtention"
+
+  /terra:option #empty
+    @name   #nmtoken
+    @value  #pcdata
+
+  対岸のオプション変数を返します。
+
+    name="nextReload" value=secs
+      次回の更新時間を通知します (クライアントの設定で調整できます)
+
+    name="purl" value=uri
+      対岸のURLクッションのプレフィックスを通知します。
+      クライアントがURLクッションに対応している場合は対岸のURLクッションは除去されます。
+
+  /terra:link #empty
+    @rel    #nmtoken
+    @title  #pcdata
+    @type   #pcdata
+    @href   uri
+
+  関連リンクを返します。
+  title属性で指定したキャプションのリンクが追加されます。
+  title属性とhref属性以外の値は重視されません。
+  rel="alternative" type="text/html" で特に問題ありません。
+
+  /terra:serial #pcdata
+
+  更新イベントのシリアル番号を整数値で通知します。
+  最終更新時間が同一で内容更新があった事を確実に通知できます。
+
+  /log/article/terra:text #pcdata
+
+  articleの補助的な情報を記述します。
+  当クライアントでは発言時刻の隣に小さな淡い文字で追記されます。
+</pre>
+
+<h2>HISTORY</h2>
+<pre>
+  ver1.04.34.20070817 (alpha5)
+    URLクッションの実装
+
+  ver1.04.33.20070703 (alpha4)
+    一部ディレクトリの変更
+
+  ver1.04.32.20070323 (alpha3)
+    Atom/RSS対応の改善
+    Casterの一部機能のマージ
+
+  ver1.04.31.20070322 (alpha2)
+    UIの一部変更
+    body要素のtype属性に対応
+    templateのpreEncode属性の廃止
+    Atom対応の改善
+    Casterの一部機能のマージ
+
+  ver1.04.30.20070319 (alpha)
+    更新時間の調整機能追加
+    基本機能のいくつかの修正
+    ユーザーエージェントの名前を変更
+    Casterの一部機能のマージ
+
+  ver1.03.29.20061003
+    関連URLの追加
+
+  ver1.02.28.20060922
+    プリセットデータの変更
+
+  ver1.01.27.20060602
+    ウィンドウ位置保存の修正
+    setting.xmlインポート後に自動保存
+    HTMLレンダリングの修正
+
+  ver1.00.20060526
+  ver0.26.20060523
+    スキンの自動読み込み対応
+    設定ファイルのOPML化
+
+  ver0.25.20060501
+    IE 7 がインストールされている環境での不具合修正
+      X Terraの軽量モードに対応 → 廃止されました
+    自動更新に暫定対応
+
+  ver0.24.20060415
+    0.23の不具合修正など
+    アンカーのネストに関する修正
+
+  ver0.23.20060411
+    0.21の不具合修正など
+
+  ver0.22.20051221
+    欠番リリース
+
+  ver0.21.20051205
+    BRタグの不具合修正
+    ActiveXカスタムコントロールの導入
+    タスクバーの点滅等をサポート
+
+  ver0.20.20051201
+    HTMLパースの改良
+    細かい不具合修正
+
+  ver0.19.20051117
+    細かい不具合修正
+    発言履歴
+    メインスクリプトをHTAに統合
+    テーマの変更
+
+  ver0.18.20051100
+    テンプレートの仕様変更
+    主に細かいバグフィックス
+
+  ver0.17.20051025a
+    マイナーバグフィックス
+
+  ver0.17.20051025
+    Feed追加時の再起動を抑制
+    XSL廃止、レンダリングエンジンの変更
+    Cast対応(WD2/WD3)
+
+  ver0.16.20051021
+    パス構成の変更
+    DTDの修正
+    Add Feed 機能
+    リンクの正規表現
+
+  ver0.15.20051010
+    XMLHttpRequestのデッドロック修正
+    アンカーのフック修正
+
+  ver0.14.20051007
+    DOMパーサーの仕様変更
+
+  ver0.13.20051006a
+    マイナーバグフィックス
+
+  ver0.13.20051006
+    起動時のリサイズのちらつき防止
+    UserData廃止、全設定XML化
+    ツリー構造の変更
+
+  ver0.12.20050713
+    リンクをフック(IDN対応、標準のブラウザ使用)
+    表示の修正
+
+  ver0.11.20050711
+    設定画面タブ
+    時刻表示の修正
+    テーマファイルの分離
+
+  ver0.10.20050629
+    対応プロファイルの追加：WindChat、Terra
+    User-Agent文字列の変更
+    経験値表示の変更
+
+  ver0.09
+    メモリリークの改善
+    タブを閉じるの改良
+
+  ver0.08
+    メモリリークを若干改善
+    タブを閉じる機能
+    ショートカットキー追加
+    ウィンドウポジション保存
+    通信の排他制御
+
+  ver0.07
+    非同期リロード
+    裏タブ対応
+</pre>
+
+<h2>LICENSE</h2>
+
+<p>本ソフトウェアは修正BSDライセンスの下でリリースされます。</p>
+
+<address>Copyright (c)2005,2006 Nerry Kitazato, All rights reserved.</address>
+
+<pre>
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+- Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer. 
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+</pre>
+
+</head></html>

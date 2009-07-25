@@ -1,0 +1,46 @@
+=begin
+
+= Name
+
+きゃすたー
+
+= Abstract
+
+改造版AjaWrapper。
+
+= Synopsis
+
+1. Caster.hta を起動
+2. 使う
+
+詳細は AjaWrapper.txt を見よ。
+
+= Difference
+
+AjaWrapper との違い。
+
+== Marldia 対応の強化
+
+* 削除機能に対応
+
+== キーワード一致時のみ音で知らせる
+
+== 特定のタブの通知を止める
+
+== アクティブでないタブでの新しい発言を下に表示
+
+= FAQ
+
+Q: キーワード設定した時の反応音を任意選択できるように
+A: とりあえず違う音を鳴らせるようにはした。 keyword.wav をご用意ください
+
+Q: この表示の仕方じゃなくてもうちょいひねりあったほうがいいかもね
+A: 色ぐらいつけようかなぁと思いつつ迷い中
+
+= License
+
+AjaWrapper と同じ。
+
+= Author
+
+Copyright (c) 2006 Airemix.

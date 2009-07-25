@@ -7,6 +7,13 @@
 <meta http-equiv="MSThemeCompatible" content="Yes" />
 <!--
 
+	Caster - Cast Client
+
+Copyright (c) 2006-2009 Airemix. All rights reserved.
+
+License of this application is the same of AjaWrapper.
+
+
 	AjaxChatClient
 
 Copyright (c)2005,2006,2007 Nerry Kitazato, All rights reserved.
@@ -38,19 +45,84 @@ POSSIBILITY OF SUCH DAMAGE.
 .hidden{ display: none; }
 #painPoolContainer .active { display: block; }
 #painPoolContainer .inactive { display: none; }
+HTML { font:medium 'MS PGothic'; }
 BODY { overflow-y: hidden; }
 form{ margin:0; }
 
-.chatLog {
-	height: 250px;
+/*
+ * BODY {
+ *   .layout {
+ *     #barTabContainer {
+ *     }
+ *     #painPoolContainer {
+ *       #tabContents99{
+ *       }
+ *       #painPool{
+ *         #submitForms.tab {
+ *         }
+ *         #inputForms.tab {
+ *         }
+ *         #chatFrameOption.tab {
+ *         }
+ *         #chatMember.tab {
+ *         }
+ *         #chatLog.tab {
+ *         }
+ *       }
+ *     }
+ *     #globalLog {
+ *     }
+ *   }
+ * }
+ */
+
+.layout{
+}
+#barTabContainer {
 	overflow-y: auto;
 }
+#painPoolContainer {
+/*	overflow-y: auto;*/
+}
+.submitForms {
+}
+.inputForms {
+/*	height: 40px;*/
+}
+.chatMember {
+	overflow-y: auto;
+}
+.chatLog {
+	overflow-y: auto;
+	word-break: break-all;
+}
 #globalLog {
+	position: fixed;
+	bottom: 0px;
 	height: 100px;
+	width: 100%;
 	overflow-y: scroll;
+	word-break: break-all;
 }
 #globalLog p {
+	margin: 0 0 0 2em;
+/*	text-indent: -2em; */
+}
+#globalLog a :link, #globalLog a :visited{
 	margin: 0;
+	text-decoration: none;
+}
+.globalLogTime {
+	color: #777;
+}
+.globalLogChannel {
+	color: #6A9;
+}
+.globalLogName {
+	color: #07C;
+}
+.globalLogBody {
+	color: #777;
 }
 
 </style>
@@ -61,14 +133,14 @@ form{ margin:0; }
 <script type="text/javascript">
 
 	var	app		= {
-		"name":"Revolution/1.04 (alpha5)",
+		"name":"Caster/0.36",
 		"core":"AjaxChatClient/1.04.34.20070818",
 		"active":true,
 		"selected":0,
 		"timerSetActiveBody":null,
 		"tab":[],
 		"addedTab":0,
-		"defaultReload":20,
+		"defaultReload":30,
 		"outline":[],
 		"history":{
 			"max":50,
@@ -81,14 +153,14 @@ form{ margin:0; }
 	};
 	app.ua		= app.name+' '+app.core;
 	app.popup	= window.createPopup();
-	app.regexp_autolink	= new RegExp("(^|[^>\\w])((ftp|http|https)://[^\"#&'/\\s]+(|/[\x21\x23-\x26\x28-\x7e]*))(?=($|[^\x21\x23-\x26\x28-\\x7e]))","g");
+	app.regexp_autolink	= new RegExp("(^|[^>\\w])((https?|ftp)://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+)", "g");
 
 	app.pathUserProfilePrefix	= "./etc/";
 
 	app.pathProfile	= app.pathUserProfilePrefix+"profile.xml";
 	app.pathOPML	= app.pathUserProfilePrefix+"setting.opml";
 	app.pathDefaultOPML	= "./lib/default-setting.opml";
-	var	domProfile	= new ActiveXObject("Microsoft.XMLDOM");
+	var	domProfile	= getDOMDocument();
 	if(!domProfile.load(app.pathProfile)){
 		domProfile.loadXML("<profile>\n<application-settings />\n</profile>");
 	}
@@ -195,7 +267,7 @@ function onActivate(active){
 
 		//setTimeout("(oAccHelper.getVersion())", 1000);
 
-		app.domConfigForm	= new ActiveXObject("Microsoft.XMLDOM");
+		app.domConfigForm	= getDOMDocument();
 		app.domConfigForm.load("./lib/template-config.xml");
 
 		var x=app.domConfigForm.selectSingleNode("//*[@id='idTheme']");
@@ -206,7 +278,7 @@ function onActivate(active){
 			if(!file.Name.match(/^\./)){
 				var option=x.appendChild(app.domConfigForm.createElement("option"));
 				option.setAttribute("value",file.Name);
-				if(file.Name.match(/Terra/i)){
+				if(file.Name.match(/Caster/i)){
 					option.setAttribute("selected","selected");
 				}
 				option.appendChild(app.domConfigForm.createTextNode(file.Name));
@@ -251,9 +323,9 @@ function onActivate(active){
 		applyTopmost();
 
 		//	setting.opml/setting.xml のインポート
-		var	domConfig = new ActiveXObject("Microsoft.XMLDOM");
+		var	domConfig = getDOMDocument();
 		var pathOldConfig = app.pathUserProfilePrefix+"setting.xml";
-		var	domOPML	= new ActiveXObject("Microsoft.XMLDOM");
+		var	domOPML	= getDOMDocument();
 		if(!domOPML.load(app.pathOPML)){
 			if(domConfig.load(pathOldConfig)){
 				domOPML.loadXML("<opml xmlns:acc=\"http://wahah.jp/AccOPML/\" />");
@@ -283,7 +355,6 @@ function onActivate(active){
 		app.openedTabs	= 2;
 		app.tab[99]={ "system":true, "opened":true, "created":true, "discardable":false, "title":"設定", "idBody":"id_add_feed_url", "options":{"disallowPost":true} };
 		select_chat(99);
-		add_tab({ "acc:startup":"true", "type":"rss", "text":"ホーム", "htmlUrl":"about:", "xmlUrl":"http://wahah.jp/rpc/acc/welcome.cgi" });
 		var x=domOPML.documentElement.selectNodes("body/outline");
 		for(var i=0;i<x.length;i++){
 			var o={};
@@ -306,8 +377,8 @@ function onActivate(active){
 			if(document.getElementById("idRememberWindowPosition").checked){
 				var clientX		= window.screenLeft;
 				var clientY		= window.screenTop;
-				var clientW		= document.body.offsetWidth;
-				var clientH		= document.body.offsetHeight;
+				var clientW		= document.documentElement.offsetWidth;
+				var clientH		= document.documentElement.offsetHeight;
 
 				var	resizeW		= 240;
 				var	resizeH		= 120;
@@ -315,16 +386,29 @@ function onActivate(active){
 				window.moveTo(0,0);
 				window.resizeTo(resizeW,resizeH);
 
-				clientMarginW	= resizeW-document.body.offsetWidth;
-				clientMarginH	= resizeH-document.body.offsetHeight;
-
 				domProfileAPS.setAttribute("X",clientX-window.screenLeft);
 				domProfileAPS.setAttribute("Y",clientY-window.screenTop);
-				//domProfileAPS.setAttribute("W",clientW+clientMarginW);
-				//domProfileAPS.setAttribute("H",clientH+clientMarginH);
+				domProfileAPS.setAttribute("W",clientW+resizeW-document.documentElement.offsetWidth);
+				domProfileAPS.setAttribute("H",clientH+resizeH-document.documentElement.offsetHeight);
 			}
 		}catch(e){}
 		save_profile();
+	}
+
+	window.onresize	= function(){
+		try{
+			var chat_log = document.getElementById("chatLog."+app.selected)
+			if (chat_log) {
+				var height = document.documentElement.clientHeight - 1
+				 - document.getElementById('barTabContainer').offsetHeight
+				 - document.getElementById('tabContents99').offsetHeight
+				 - document.getElementById('submitForms.'+app.selected).offsetHeight
+				 - document.getElementById('inputForms'+app.selected).offsetHeight
+				 - document.getElementById('chatMember.'+app.selected).offsetHeight
+				 - document.getElementById('globalLog').offsetHeight;
+				chat_log.style.height = height;
+			}
+		}catch(e){}
 	}
 
 	window.onerror = function(message,url,line){
@@ -333,7 +417,7 @@ function onActivate(active){
 	}
 
 function saveOutline(){
-	var	domOPML	= new ActiveXObject("Microsoft.XMLDOM");
+	var	domOPML	= getDOMDocument();
 	domOPML.loadXML("<opml />");
 	domOPML.documentElement.setAttribute("version","1.0");
 	domOPML.documentElement.setAttribute("xmlns:acc","http://wahah.jp/AccOPML/");
@@ -521,12 +605,14 @@ function select_chat(tab){
 			app.tab[tab].options.reload = app.defaultReload
 		}
 
-		var	dom		= new ActiveXObject("Microsoft.XMLDOM");
+		var	dom		= getDOMDocument();
 		var pain	= dom.createDocumentFragment();
 		var form	= pain.appendChild(dom.createElement("form"));
 		form.setAttribute("onsubmit","wrapper_talk(); return false;");
 		form.setAttribute("onreset","return false;");
 		var	div		= pain.appendChild(dom.createElement("div"));
+		div.setAttribute("id","submitForms."+tab);
+		div.setAttribute("class","submitForms");
 		if(!app.tab[tab].options.disallowPost){
 			var	input	= div.appendChild(dom.createElement("input"));
 			input.setAttribute("id","submitButton_"+tab);
@@ -564,6 +650,14 @@ function select_chat(tab){
 		span.setAttribute("id","id_span_alternative_url"+tab);
 		span.appendChild(dom.createTextNode(" "));
 		div.appendChild(span);
+		var silent = div.appendChild(dom.createElement("input"));
+		silent.setAttribute("id", "silent_"+tab);
+		silent.setAttribute("type", "checkbox");
+		var silent_label = div.appendChild(dom.createElement("label"));
+		silent_label.setAttribute("for", "silent_"+tab);
+		silent_label.setAttribute("accesskey", "h");
+		silent_label.appendChild(dom.createTextNode("通知を抑止"));
+		div.appendChild(dom.createTextNode(" | "));
 
 		if(document.getElementById("idEnableDebug").checked){
 			var	anchor	= div.appendChild(dom.createElement("a"));
@@ -579,6 +673,8 @@ function select_chat(tab){
 		}
 
 		var	div		= pain.appendChild(dom.createElement("div"));
+		div.setAttribute("id","inputForms"+tab);
+		div.setAttribute("class","inputForms");
 		wrapper_parse_template(tab,dom,div,app.tab[tab].domSetting.documentElement.selectNodes("form/fieldset[@type='main']"));
 		var	div		= pain.appendChild(dom.createElement("fieldset"));
 		div.setAttribute("id","chatFrameOption."+tab);
@@ -588,7 +684,7 @@ function select_chat(tab){
 
 		var div		= pain.appendChild(dom.createElement("div"));
 		div.setAttribute("id","chatMember."+tab);
-		div.setAttribute("class","logMember");
+		div.setAttribute("class","chatMember");
 		div.appendChild(dom.createTextNode(" "));
 		var div		= pain.appendChild(dom.createElement("div"));
 		div.setAttribute("id","chatLog."+tab);
@@ -1130,7 +1226,7 @@ try{
 								+escapeAttribute((u?(now-parseInt(u.valueOf()/1000))+"秒":"")
 								+(hash["uri"]?"\nHome: "+hash["uri"]:"")+(hash["email"]?"\nE-mail: "+hash["email"]:""))+">"
 								+(hash["icon"]?"<img src="+escapeAttribute(hash["icon"])+" height=\"16\" />":"")
-								+encodeEntity(hash["name"]+((typeof hash["status"]=="string")?"("+hash["status"]+")":""))+"</span>☆");
+								+encodeEntity(hash["name"]+((typeof hash["status"]=="string")?"("+hash["status"]+")":""))+"</span>,");
 					}
 				}
 			}
@@ -1187,18 +1283,19 @@ try{
 						if (previousModified && previousModified < l.updated) {
 							if (!notifyKeyword){
 								for ( var idx = 0; keywords.length > idx; idx++) {
-									if (l['body'].match(keywords[idx]) ||
-									l['name'].match(keywords[idx]) ||
-									l['id'].match(keywords[idx])) {
+									if (keywords[idx] && l['body'].match(keywords[idx])) {
 										notifyKeyword = true;
 										break;
 									}
 								}
 							}
 							if (app.selected != tab) {
-								var p = document.createElement('p');
-								new_messages.appendChild(p);
-								p.appendChild(document.createTextNode(l.updated.strftime('%H:%M') + " <" + app.tab[tab].title + "> (" + l.name + ") " + l.body));
+								var p = new_messages.appendChild(document.createElement('p'));
+								p.setAttribute('ondblclick', 'select_chat(tab); this.blur(); return false;');
+								p.innerHTML = '<span class="globalLogTime">' + l.updated.strftime('%H:%M ') +
+								'<span class="globalLogChannel">&lt;' + app.tab[tab].title +
+								'&gt; <span class="globalLogName">(' + l.name + ') <span class="globalLogBody">' +
+								l.body.replace(/<[^>]*>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
 							}
 						}
 					}
@@ -1311,6 +1408,9 @@ encodeEntity(hash["delete"]).replace(/\'/g,'&#39;').replace(/\"/g,'&#34;')
 				document.getElementById("tabButton"+tab).className="updated";
 			}
 			if (notifyKeyword) {
+				oAccHelper.FlashWindow();
+				oAccHelper.playSound("keyword.wav");
+			} else if(document.getElementById("silent_"+tab).checked==false) {
 				if(!app.active && document.getElementById("idEnableFlashWindow").checked){
 					oAccHelper.FlashWindow();
 				}
@@ -1334,7 +1434,7 @@ encodeEntity(hash["delete"]).replace(/\'/g,'&#39;').replace(/\"/g,'&#34;')
 	document.getElementById("tabButton"+tab).innerHTML = app.tab[tab].title;
 
 }catch(e){
-	msgbox("エラー："+e.message);
+	wrapper_append_global_log_string(e.message);
 }
 
 }
@@ -1447,7 +1547,7 @@ function add_feed(button,uri){
 		case "http://airemix.org/2005/ChatXML":	// ChatXML WD2
 		case "http://airemix.org/2005/Cast":	// Cast WD3+
 			var root	= req.responseXML.documentElement;
-			var	system_name	= getElementText(root.selectSingleNode("system/uri"));
+			var	system_name	= getElementText(root.selectSingleNode("system/uri")).replace(/(?:\/(?:\d+(?:\.\d+)*)?)$/,'');
 			var system	= system_name_table[system_name];
 			if(!system){
 				system="Cast_Unknown.xml";
@@ -1513,7 +1613,7 @@ function add_tab(e){
 		"orgUri":""+e["htmlUrl"],
 		"siteName":"",
 		"pathSetting":"./lib/templates/"+(e["acc:system"] || "Atom.xml"),
-		"domSetting":new ActiveXObject("Microsoft.XMLDOM"),
+		"domSetting":getDOMDocument(),
 		"nodeProfile":null,
 		"timer":null,
 		"implicit_reload_uri":"",
@@ -1642,11 +1742,18 @@ function wrapper_append_global_log(frag){
 	var gl = document.getElementById("globalLog");
 	if(gl.hasChildNodes()) gl.insertBefore(frag, gl.firstChild);
 	else gl.appendChild(frag);
-	while (gl.childNodes.length > 200) {
+	while (gl.childNodes.length > 100) {
 		gl.removeChild(gl.lastChild);
 	}
 }
 
+function getDOMDocument(){
+	try{
+		return new ActiveXObject("MSXML2.FreeThreadedDOMDocument");
+	}catch(e){
+		return new ActiveXObject("Microsoft.XMLDOM")
+	}
+}
 
 Date.prototype.strftime = function(format){
 	var date = this;
@@ -1714,6 +1821,7 @@ Date.prototype.strftime = function(format){
 
 	<div id="barTabContainer" oncontextmenu="return false;">
 		<span id="barTab"></span>
+		<a id="tabButton99" class="disabled" accesskey="0" href="#" onclick="select_chat(99); this.blur; return false;">設定</a>
 	</div>
 	<div id="painPoolContainer">
 
@@ -1730,6 +1838,7 @@ Date.prototype.strftime = function(format){
 			<div id="id_config_html_here" /></div>
 			<hr />
 			<address>Copyright &copy; 2005,2006,2007 <a href="http://wahah.jp/" onclick="return nav(this.href)">Nerry Kitazato</a>, ALL RIGHTS RESERVED.</address>
+			<address>Copyright &copy; 2005-2007 <a href="http://airemix.com/" onclick="return nav(this.href)">Airemix</a>, ALL RIGHTS RESERVED.</address>
 		</div>
 		<div id="painPool"></div>
 	</div>

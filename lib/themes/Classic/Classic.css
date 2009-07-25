@@ -1,0 +1,148 @@
+
+﻿a {
+	color: #A0F;
+	text-decoration: none;
+}
+﻿a:link {
+	color: #808;
+	border-bottom: #00F dashed 1px;
+}
+﻿a:visited {
+	color: #808;
+	border-bottom: #A0A dashed 1px;
+}
+a:hover {
+	color: #F0A;
+	border-bottom-color: #F00;
+}
+html,body,input,button,table,textarea,select {
+	font: 12px "MS PGothic","Verdana"; 
+}
+html,body {
+	padding: 0;
+	margin: 0;
+	background: #F7F7F7;
+	color: #555555; 
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	width: 100%;
+	height: 100%;
+}
+button,input,select,textarea{
+	vertical-align: middle;
+}
+button{
+	height: 20px;
+}
+dl {
+	margin: 4px;
+	padding: 0;
+}
+dd {
+	margin: 0 1em;
+	padding: 0;
+}
+em{
+	font-style: normal;
+	color: red;
+}
+em.caution{
+	font-size: smaller;
+}
+form{
+	margin: 0;
+	padding: 0;
+}
+h1 {
+	padding: 0;
+	margin: 0;
+	font: bold 16px "Verdana";
+	text-decoration: underline;
+}
+.layout{
+
+}
+.logMember {
+	padding: 2px;
+	background: #FEF;
+	border: #000 dashed 1px;
+}
+.logMember img {
+	vertical-align: middle;
+}
+.log{
+	border-bottom: #888888 dashed 1px;
+	vertical-align: middle;
+}
+.log img {
+	vertical-align: middle;
+	border: none;
+	margin: 1px;
+}
+.date {
+	color: #888888;
+	font-size: smaller;
+}
+.badtags {
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	color: #00F;
+}
+.extratags {
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: line-through;
+	color: #088;
+}
+.notags {
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	color: #F00;
+}
+#barTabContainer a {
+	display: inline-block;
+	margin: 1px;
+	padding: 0 3px;
+	border: #000 solid 1px;
+	vertical-align: middle;
+	overflow: hidden;
+	width: 56px;
+	height: 20px;
+	white-space: nowrap;
+	cursor: pointer;
+	text-decoration: none;
+	font: 12px/18px "MS UI Gothic";
+	text-align: center;
+}
+#barTabContainer .disabled {
+	background: #DDD;
+	color: #AAA;
+	border-color: #AAA;
+}
+#barTabContainer .inactive {
+	background: #FFE;
+	color: #000;
+}
+#barTabContainer .updated {
+	background: #F00;
+	color: #FFF;
+	font-weight: bold;
+}
+#barTabContainer .active {
+	background: #00F;
+	color: #FFF;
+	font-weight: bold;
+}
+.submitButton, .submitButtonHover, .button, .buttonHover, .nativeButton {
+	background: buttonFace;
+	color: button;
+}
+
+#tabContents99 {
+	padding: 4px;
+}
