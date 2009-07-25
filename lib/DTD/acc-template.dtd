@@ -14,7 +14,7 @@
 <!ENTITY % YesNo	"( yes | no )" >
 
 <!ENTITY % InputType	"(string | integer | hidden | fixed | body | select)" >
-<!ENTITY % pType	"( text | name | body | line | reload | mode | color | icon )" >
+<!ENTITY % pType	"( text | name | body | line | reload | mode | color | icon | email | uri )" >
 
 <!-- TOP LEVEL ELEMENT -->
 <!ELEMENT template (options?,form,output?)>

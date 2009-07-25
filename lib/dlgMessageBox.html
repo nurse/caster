@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="MSThemeCompatible" content="Yes" />
-<title>Alert</title>
-<link rel="StyleSheet" media="Screen" type="text/css" href="../lib/Themes/MarksAfterDream/MarksAfterDream.css" />
-<style type="text/css" media="Screen">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Script-Type" content="text/javascript" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<meta http-equiv="MSThemeCompatible" content="Yes" />
+		<title>Alert</title>
+		<style type="text/css" media="Screen">
+
 .dlg_bar_command {
 	display:none;
 	position: fixed;
@@ -20,10 +21,18 @@
 	border: none;
 	border-top: #888 solid 1px;
 }
-</style>
-<script type="text/javascript">
+
+		</style>
+		<script type="text/javascript">
+
 window.onload=function(){
 	if(window.dialogArguments != null) {
+
+		var tn=window.dialogArguments.window.document.getElementById("idTheme").value;
+		var css=document.createStyleSheet("./themes/"+tn+"/"+tn+".css");
+		css.title="style";
+		css.disabled=false;
+
 		window.returnValue=false;
 		document.title=window.dialogArguments.title;
 		document.getElementById('idMessage').value = window.dialogArguments.message;
@@ -45,18 +54,23 @@ function on_press_yes(){
 function on_press_no(){
 	self.close();
 }
-</script>
-</head><body style="width:450px; height:110px; overflow:none;"><div class="layout">
-	<form onsubmit="self.close(); return false;">
-		<div style="padding:5px;">
-			<textarea style="border:none; background:transparent; overflow:auto;" id="idMessage" style="width:450px; height:100px;" onclick="select(this);" readonly="readonly"></textarea><br />
+
+	</script>
+	</head>
+	<body style="width:450px; height:110px; overflow:none;">
+		<div class="layout">
+			<form onsubmit="self.close(); return false;">
+				<div style="padding:5px;">
+					<textarea style="border:none; background:transparent; overflow:auto;" id="idMessage" style="width:450px; height:100px;" onclick="select(this);" readonly="readonly"></textarea><br />
+				</div>
+				<div id="id_bar_command_message" class="dlg_bar_command">
+					<input type="submit" id="idCloseButton" class="button" onmouseover="this.className='buttonHover'; return false;" onmouseout="this.className='button'; return false;" value=" OK " />
+				</div>
+				<div id="id_bar_command_confirm" class="dlg_bar_command">
+					<input type="button" id="idYesButton" class="button" onmouseover="this.className='buttonHover'; return false;" onmouseout="this.className='button'; return false;" value=" YES " onclick="on_press_yes()" />
+					<input type="button" id="idCancelButton" class="button" onmouseover="this.className='buttonHover'; return false;" onmouseout="this.className='button'; return false;" value=" NO " onclick="on_press_no()" />
+				</div>
+			</form>
 		</div>
-		<div id="id_bar_command_message" class="dlg_bar_command">
-			<input type="submit" id="idCloseButton" class="button" onmouseover="this.className='buttonHover'; return false;" onmouseout="this.className='button'; return false;" value="OK" />
-		</div>
-		<div id="id_bar_command_confirm" class="dlg_bar_command">
-			<input type="button" id="idYesButton" class="button" onmouseover="this.className='buttonHover'; return false;" onmouseout="this.className='button'; return false;" value="YES" onclick="on_press_yes()" />
-			<input type="button" id="idCancelButton" class="button" onmouseover="this.className='buttonHover'; return false;" onmouseout="this.className='button'; return false;" value="NO" onclick="on_press_no()" />
-		</div>
-	</form>
-</div></body></html>
+	</body>
+</html>

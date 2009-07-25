@@ -1,10 +1,10 @@
-/*
+﻿/*
 
 	AjacChatClient default theme
 
 */
 
-﻿a {
+a {
 	color: #A0F;
 	text-decoration: none;
 }
@@ -72,12 +72,12 @@ form{
 .layout{
 
 }
-.logMember {
+.chatMember {
 	padding: 2px;
 	background: #FEF;
 	border: #000 dashed 1px;
 }
-.logMember img {
+.chatMember img {
 	vertical-align: middle;
 }
 .log{

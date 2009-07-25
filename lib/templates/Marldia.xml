@@ -7,7 +7,7 @@
 	<form>
 		<fieldset type="main">
 			<input type="fixed"		perceivedType="text"	name="type" get="yes" post="yes" value="xml" />
-			<input type="fixed"		perceivedType="text"	name="version" get="yes" post="yes" value="0.2" />
+			<input type="fixed"		perceivedType="text"	name="version" get="yes" post="yes" value="0.4" />
 			<input type="string"	perceivedType="name"	name="name" saving="yes" get="yes" post="yes" value="" size="10" label="名前" />
 			<input type="integer"	perceivedType="line"	name="line" saving="yes" get="yes" post="yes" value="20" size="2" label="行数" />
 			<line-break />
@@ -19,8 +19,8 @@
 			<input type="string"	perceivedType="color"	name="bcolo" saving="yes" post="yes" value="#343434" size="10" label="文章色" />
 			<input type="string"	perceivedType="icon"	name="icon" saving="yes" post="yes" value="bwg/hellboy.png" size="10" label="アイコン" />
 			<input type="string"	perceivedType="text"	name="opt" saving="yes" get="yes" post="yes" value="" size="10" label="Option" />
-			<input type="string"	perceivedType="text"	name="email" saving="yes" post="yes" value="" size="10" label="E-mail" />
-			<input type="string"	perceivedType="text"	name="home" saving="yes" post="yes" value="" size="10" label="Home" />
+			<input type="string"	perceivedType="email"	name="email" saving="yes" post="yes" value="" size="10" label="E-mail" />
+			<input type="string"	perceivedType="uri"		name="home" saving="yes" post="yes" value="" size="10" label="Home" />
 			<input type="hidden"	perceivedType="reload"	name="reload" get="yes" post="yes" value="20" />
 			<input type="fixed"		perceivedType="text"	name="encoding" get="yes" post="yes" value="utf-8" />
 		</fieldset>
